@@ -13,8 +13,8 @@ const Navbar = () => {
       quality={100}
        />
       <Link href='/' >Home</Link>
-      <Link href='/register' >Register</Link>
-      <Link href='/login'>Log in</Link>
+      <Link href='/signup' >signup</Link>
+      <Link href='/login'>login</Link>
     </nav>
 
   )
