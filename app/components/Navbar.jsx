@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import Logo from './K2.svg'
 
-const Navbar = () => {
+const Navbar = ({user}) => {
   return (
     <nav>
       <Image
@@ -14,7 +14,8 @@ const Navbar = () => {
        />
       <Link href='/' >Home</Link>
       <Link href='/signup' >signup</Link>
-      <Link href='/login'>login</Link>
+      <Link href='/dashboard' >dashboard</Link>
+      {user && <span>Hello, {user.email}</span>}
     </nav>
 
   )
