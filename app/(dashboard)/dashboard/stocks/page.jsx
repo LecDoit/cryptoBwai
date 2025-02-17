@@ -1,7 +1,13 @@
-import React from 'react'
 
-export default function Stocks() {
+
+
+import CreateForm from './CreateForm'
+
+export default async function CreateTrade() {
   return (
-    <div>stocks</div>
+    <main>
+      <h2 className="text-center">Open a New Ticket</h2>
+      <CreateForm />
+    </main>
   )
 }

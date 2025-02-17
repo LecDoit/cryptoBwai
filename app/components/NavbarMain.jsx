@@ -2,9 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import Logo from './K2.svg'
-import LogoutButton from './LogoutButton'
 
-const Navbar = ({user}) => {
+const NavbarMain = ({user}) => {
   return (
     <nav>
       <Image
@@ -15,12 +14,11 @@ const Navbar = ({user}) => {
        />
       <Link href='/' >Home</Link>
       <Link href='/signup' >signup</Link>
-      <Link href='/dashboard' >dashboard</Link>
-      {user && <span>Hello, {user.email}</span>}
-      <LogoutButton/>
+      <Link href='/login'>login</Link>
+
     </nav>
 
   )
 }
 
-export default Navbar
+export default NavbarMain
