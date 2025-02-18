@@ -19,20 +19,21 @@ export default function CreateForm() {
 
     const newTrade = { currency, amount, buy}
 
-    const res = await fetch('http://localhost:3000/api/trades', {
+    const res = await fetch('http://localhost:3000/api/trades/', {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(newTrade)
     })
 
-    const json = await res
+    const json = await res.json()
 
     if (json.error){
-        console.log(error.message)
+        console.log(json.error.message)
+        setIsLoading(false)
     }
     if (json.data){
         router.refresh()
-        router.push('dashboard')
+        router.push('/dashboard')
     }
 
   }
