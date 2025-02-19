@@ -1,13 +1,21 @@
+import { Suspense } from 'react'
+import CreateForm from './create/CreateForm'
+import Link from 'next/link'
+import CryptoList from './CryptoList'
+import Loading from '../loading'
 
-
-
-import CreateForm from './CreateForm'
-
-export default async function CreateTrade() {
+export default async function Trades() {
   return (
     <main>
-      <h2 className="text-center">Open a New Ticket</h2>
-      <CreateForm />
+      <nav>
+        <h2 className="text-center">Current trades</h2>    
+        <Link href='stocks/create' className='ml-auto'>
+          <button className='btn-primary'>New Trade</button>
+        </Link>  
+      </nav>
+      <Suspense fallback={<Loading/>}>
+        <CryptoList/>
+      </Suspense>
     </main>
   )
 }

@@ -34,6 +34,7 @@ export default function CreateForm() {
     if (json.data){
         router.refresh()
         router.push('/dashboard')
+        
     }
 
   }

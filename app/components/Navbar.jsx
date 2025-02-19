@@ -16,6 +16,7 @@ const Navbar = ({user}) => {
       <Link href='/' >Home</Link>
       <Link href='/signup' >signup</Link>
       <Link href='/dashboard' >dashboard</Link>
+      <Link href='/dashboard/stocks' >Add Stocks</Link>
       {user && <span>Hello, {user.email}</span>}
       <LogoutButton/>
     </nav>
