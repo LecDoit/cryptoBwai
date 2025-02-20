@@ -22,7 +22,7 @@ export default async function CryptoList() {
     <>
     {trades.map((trade)=>(
         <div className='card my-5' key={trade.id}>
-            <Link href={`stocks/${trade.id}`}>
+            <Link href={`dashboard/stocks/${trade.id}`}>
             <h3>{trade.currency}</h3>
             </Link>
         </div>

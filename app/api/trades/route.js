@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 export async function POST(request){
 
     const trade = await  request.json()
-    console.log(trade)
+
 
     const supabase = createRouteHandlerClient({cookies});
 
