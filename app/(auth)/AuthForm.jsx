@@ -14,7 +14,7 @@ const [password,setPassword] = useState('')
         <label>
             <span>Email:</span>
             <input 
-                type='email'
+                type='text'
                 onChange={(e)=>setEmail(e.target.value)}
                 value={email}>    
             </input>
