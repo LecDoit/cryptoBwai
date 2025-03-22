@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* base styles */
-body {
+/* body {
   background: #ebf0fa;
   @apply text-gray-500 m-8;
 }
@@ -18,10 +18,10 @@ main > h2 {
 }
 p > a {
   @apply text-primary underline;
-}
+} */
 
 /* nav styles */
-nav {
+/* nav {
   @apply
     pb-4
     border-b-2 border-gray-200
@@ -37,10 +37,10 @@ nav a:hover {
 }
 main nav {
   @apply border-0;
-}
+} */
 
 /* button styles */
-button {
+/* button {
   @apply 
     px-3 py-2 
     rounded-sm 
@@ -55,10 +55,10 @@ button:hover {
 }
 .btn-secondary {
   @apply bg-gray-200 text-gray-900;
-}
+} */
 
 /* form styles */
-form {
+/* form {
   @apply 
     py-4 px-7 
     bg-primary 
@@ -81,10 +81,10 @@ form select {
 }
 form button {
   @apply block mx-auto;
-}
+} */
 
 /* feedback styles */
-.error {
+/* .error {
   @apply 
     border-2 
     border-red-500 
@@ -95,10 +95,10 @@ form button {
     block
     max-w-fit
     my-4 mx-auto;
-}
+} */
 
 /* card styles */
-.card {
+/* .card {
   @apply 
     bg-white 
     shadow-sm 
@@ -114,10 +114,10 @@ form button {
 }
 .card p {
   @apply my-4 text-sm leading-6;
-}
+} */
 
 /* pill styles */
-.pill {
+/* .pill {
   @apply 
     py-1 px-2 mt-3
     inline-block 
@@ -136,4 +136,4 @@ form button {
   @apply 
     absolute bottom-0 right-0 
     rounded-tl-md;
-}
+} */
