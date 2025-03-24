@@ -9,8 +9,8 @@ const Signup = () => {
   const router = useRouter()
   const [error,setError] = useState('')
 
-  const handleSubmit = async (e,email,password)=>{
-    e.preventDefault()
+  const handleSubmit = async ({email,password})=>{
+    // e.preventDefault()
     
     const supabase = createClientComponentClient()
     const {error} = await supabase.auth.signUp({
@@ -32,7 +32,7 @@ const Signup = () => {
   }
   return (
     <main>
-      <h2 className="text-center">Sign up</h2>
+      <h2 className="text-xl font-semibold text-center mb-4">Sign up</h2>
       <AuthForm handleSubmit={handleSubmit}/>
       {error && (
         <div className="error">{error}</div>

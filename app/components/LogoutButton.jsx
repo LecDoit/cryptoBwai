@@ -2,6 +2,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+import { Button } from "@/components/ui/button"
 
 export default function LogoutButton() {
 
@@ -19,6 +20,6 @@ export default function LogoutButton() {
         }
     }
   return (
-    <div className="button btn-primary" onClick={handleLogout}>Logout</div>
+    <Button  onClick={handleLogout}>Logout</Button>
   )
 }

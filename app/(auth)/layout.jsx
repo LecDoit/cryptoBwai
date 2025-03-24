@@ -16,7 +16,7 @@ export default async function AuthLayout({children}) {
   }
   return (
     <>
-        <nav>
+        {/* <nav>
         <Image
             src={Logo}
             alt='K'
@@ -26,7 +26,7 @@ export default async function AuthLayout({children}) {
             <Link href='/' >Home</Link>
             <Link href='/signup' >Register</Link>
             <Link href='/login'>Log in</Link>
-        </nav>
+        </nav> */}
         {children}
     </>
 

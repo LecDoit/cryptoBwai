@@ -11,8 +11,9 @@ const Login = () => {
   const router = useRouter()
 
 
-  const handleSubmit = async (e,email,password)=>{
-    e.preventDefault()
+  const handleSubmit = async ({email,password})=>{
+
+    // e.preventDefault()
     setError('')
     const supabase = createClientComponentClient()
     const {error} = await supabase.auth.signInWithPassword({
@@ -32,7 +33,7 @@ const Login = () => {
 
   return (
     <main>
-      <h2 className="text-center">Log in</h2>
+      <h2 className="text-xl font-semibold text-center mb-4">Login</h2>
       <AuthForm handleSubmit={handleSubmit}/>
 
       {error && (
