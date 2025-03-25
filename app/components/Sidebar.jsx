@@ -1,5 +1,6 @@
 // 'use client'
 
+import Link from 'next/link'
 import {
     Command,
     CommandDialog,
@@ -36,9 +37,15 @@ const Sidebar = async () => {
             <Command>
               <CommandList>
                   <CommandGroup heading="Menu ">
-                    <CommandItem  className='cursor-pointer'>Current Evaluation</CommandItem>
-                    <CommandItem  className='cursor-pointer'>Inflow</CommandItem>
-                    <CommandItem  className='cursor-pointer'>Trades</CommandItem>
+                    <CommandItem  className='cursor-pointer'>
+                      <Link href='/dashboard/'>Dashboard</Link>
+                    </CommandItem>
+                    <CommandItem  className='cursor-pointer'>
+                      <Link href='/inflow/'>Inflow</Link>
+                    </CommandItem>
+                    <CommandItem  className='cursor-pointer'>
+                      <Link href='/trades/'>Trades</Link>
+                    </CommandItem>
                   </CommandGroup>
                 <CommandSeparator />
 

@@ -25,7 +25,7 @@ const Login = () => {
       setError(error.message)
     }
     if (!error){
-      router.push('/dashboard')
+      router.push('/inflow')
     }
 
   }

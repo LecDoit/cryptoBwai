@@ -2,6 +2,7 @@ import Navbar from './components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Sidebar from "./components/Sidebar";
+
 import Header from './components/Header';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
@@ -22,9 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} flex items-start justify-between`} >
-        <Sidebar/>
+        {/* <Sidebar/> */}
         <main className='w-full h-full'>
-          <Header/>
+          {/* <Header/> */}
           {children}
         </main>
       </body>
