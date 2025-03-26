@@ -1,10 +1,14 @@
-
+// import InflowForm from '@/app/components/InflowForm'
+import InflowForm from "./InflowForm"
 export default function Inflow() {
 
 
     return (
       <main>
-        <h2>Inflow</h2>
+        <div className={""}>
+          <InflowForm/>
+        </div>
+
 
       </main>
     )

@@ -12,7 +12,7 @@ export default async function AuthLayout({children}) {
   const {data} = await supabase.auth.getSession()
 
   if (data.session){
-    redirect('/dashboard')
+    redirect('/inflow')
   }
   return (
     <>

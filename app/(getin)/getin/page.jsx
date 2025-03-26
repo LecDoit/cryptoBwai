@@ -27,13 +27,9 @@ export default async function GetIn() {
   const supabase = createServerComponentClient({cookies})
   const {data} = await supabase.auth.getSession()
 
-//   if (data.session){
-//     redirect('/inflow')
-//   }
-
-//   if (!data.session){
-//     redirect('/login')
-//   }
+  if (data.session){
+    redirect('/inflow')
+  }
 
   return (
     <main className="flex justify-center items-center min-h-screen">
