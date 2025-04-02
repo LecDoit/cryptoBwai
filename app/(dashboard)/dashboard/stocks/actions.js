@@ -8,6 +8,8 @@ import { redirect } from "next/navigation"
 
 export async function addStock(formData){
     const stock = Object.fromEntries(formData)
+    console.log('1',formData)
+    console.log('2',stock)
 
     const supabase = createServerActionClient({cookies})
 

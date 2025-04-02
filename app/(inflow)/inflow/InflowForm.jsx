@@ -54,14 +54,20 @@ export default function InflowForm() {
   
     const {control} = useForm()
     useEffect(()=>{
-
-        setStableCoins(Number(pln)/Number(rate))
+        if (pln && rate){
+            setStableCoins(Number(pln)/Number(rate))
+        } 
+     
     },[rate,pln])
 
-    const handleSubmit = (data) =>{
-        // console.log(control)
-        console.log({stableCoins,rate,pln})
-    }
+    const handleSubmit = (data) => {
+        // Include stableCoins in the form data before submitting
+        const formData = { ...data, stableCoins };
+        console.log("Submitting form with data:", formData);
+    
+        // Pass formData to your addInflow function
+        addInflow(formData); // Send data to your API
+      };
 
 
   return (
@@ -72,7 +78,8 @@ export default function InflowForm() {
         </CardHeader>
         <CardContent>
         <Form {...form}>
-            <form  action={addInflow}
+            <form  
+            // action={addInflow}
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
@@ -90,7 +97,6 @@ export default function InflowForm() {
                     {...field}
                     onChange={(e) => {
                         field.onChange(e); // Preserve existing form behavior
-                        console.log('dziala')
                         setPln(e.target.value)
                       }}
                     />
