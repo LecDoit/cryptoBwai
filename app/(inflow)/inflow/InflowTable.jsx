@@ -17,88 +17,75 @@ import {
     TableRow,
   } from "@/components/ui/table"
   
-  const invoices = [
-    {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
-    },
-  ]
+
 
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 
 export const dynamicParams = true
 
-// export async function generateMetadata({params}){
-//     const supabase = createServerComponentClient({cookies})
+export async function generateMetadata({params}){
+    const supabase = createServerComponentClient({cookies})
 
 
 
-//     const {data:inflow} = await supabase
-//     .from('inflow')
-//     .select()
+    const {data:inflow} = await supabase
+    .from('inflow')
+    .select()
 
-//     return{
-//         title:`Dojo helpdesk  | ${inflow?.id || "Trade not found"}`
-//     }
-// }
+    return{
+        title:`Dojo helpdesk  | ${inflow?.id || "Trade not found"}`
+    }
+}
 
+
+
+
+
+async function getTrade(id) {
+    const supabase = createServerComponentClient({cookies})
+
+    const {data} = await supabase.from('trades')
+    .select()
+    .eq('id',id)
+    .single()
+    
+    if (!data){
+        notFound()
+        
+    }
+    return data
+    
+}
 
 async function getInflow() {
     const supabase = createServerComponentClient({cookies})
 
-    const {data,error} = await supabase.from('inflow')
-    .select()
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+    const sessionEmail = sessionData.session.user.email
+
+    const userEmail = sessionData.session.user.email;
+
+    const {data,error} = await supabase
+      .from('inflow')
+      .select()
+      .eq('user_email',sessionEmail)
     if (error){
         console.log(error.message)
     }
     return data
-    
+  
 }
 
   
   export async function InflowTable() {
 
     const inflows = await getInflow()
-    
+    const supabase = createServerComponentClient({cookies})
+    const {data} = await supabase.auth.getSession()
+    // console.log(inflows[0].user_email)
+
     let stableCoins = 0
     let pln = 0
     let fxAvg = 0 
