@@ -55,7 +55,7 @@ export default function InflowForm() {
     const {control} = useForm()
     useEffect(()=>{
         if (pln && rate){
-            setStableCoins(Number(pln)/Number(rate))
+            setStableCoins((Number(pln)/Number(rate)).toFixed(2))
         } 
      
     },[rate,pln])
