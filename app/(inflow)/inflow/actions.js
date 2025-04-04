@@ -47,7 +47,9 @@ export async function deleteInflow(id){
 
 
     if (error){
-        throw new Error('Could not delete the inflow')
+        console.log(error)
+        throw new Error('Could not delete the inflow',error)
+        
     }
 
     revalidatePath('/inflow')

@@ -67,6 +67,8 @@ export default function InflowForm() {
     
         // Pass formData to your addInflow function
         addInflow(formData); // Send data to your API
+
+        
       };
 
 

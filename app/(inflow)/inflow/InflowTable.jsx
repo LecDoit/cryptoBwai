@@ -18,9 +18,10 @@ import {
   } from "@/components/ui/table"
   
 
-
+import { Button } from "@/components/ui/button"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
+import DeleteButton from "./DeleteButton"
 
 export const dynamicParams = true
 
@@ -111,6 +112,7 @@ async function getInflow() {
                     <TableHead>PLN</TableHead>
                     <TableHead>FX Rate</TableHead>
                     <TableHead className="text-right">Stable Coins</TableHead>
+                    <TableHead className="text-center">Remove</TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -120,6 +122,7 @@ async function getInflow() {
                     <TableCell>{inflow.pln}</TableCell>
                     <TableCell>{inflow.rate}</TableCell>
                     <TableCell className="text-right">{inflow.stableCoins}</TableCell>
+                    <TableCell className="text-center"><DeleteButton id={inflow.id}/></TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
