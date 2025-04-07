@@ -7,18 +7,19 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { WEBPACK_LAYERS } from "next/dist/lib/constants"
 
-export async function addInflow(formData){
+export async function addTrade(formData){
 
     
     console.log('##########################',formData)
-    // const inflow = Object.fromEntries(formData)
+    // const trade = Object.fromEntries(formData)
     
 
     const supabase = createServerActionClient({ cookies: () => cookies() });
 
+
     const {data:{session}} = await supabase.auth.getSession()
 
-    const {error} = await supabase.from('inflow')
+    const {error} = await supabase.from('trades')
     .insert({
         ...formData,
         user_email:session.user.email
@@ -26,33 +27,32 @@ export async function addInflow(formData){
 
     if (error){
         console.log(error)
-        throw new Error('Could not add the new inflow')
+        throw new Error('Could not add the new trade')
         
     }
 
-    revalidatePath('/inflow')
-    redirect('/inflow')
+    revalidatePath('/trades')
+    redirect('/trades')
 }
 
 
-export async function deleteInflow(id){
+export async function deleteTrade(id){
 
 
     const supabase = createServerActionClient({cookies})
 
 
-    const {error} = await supabase.from('inflow')
+    const {error} = await supabase.from('trades')
     .delete()
     .eq('id',id)
 
 
     if (error){
         console.log(error)
-        throw new Error('Could not delete the inflow',error)
+        throw new Error('Could not delete the trade',error)
         
     }
-
-    revalidatePath('/inflow')
-    redirect('/inflow')
+    revalidatePath('/trades')
+    redirect('/trades')
 
 }

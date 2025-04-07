@@ -25,7 +25,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import {addInflow} from "./actions"
+import {addTrade} from "./actions"
 import {
     Select,
     SelectTrigger,
@@ -43,26 +43,40 @@ const tradeSchema = z.object({
     price:z
         .string({invalid_type_error:'Price must be a number'})
         .min(0.01,'Field is required'),
-    ammount:z
+    amount:z
         .string({invalid_type_error:'Amount must be a number'})
         .min(0.01,'Field is required'),
     type:z
         .string({invalid_type_error:'Type must be a selected'})
         .min(0.01,'Field is required'),
-    openClose:z
+    status:z
         .string({invalid_type_error:'Amount must be a number'})
         .min(0.01,'Field is required'),
     leverage:z
         .string({invalid_type_error:'Levarage must be a number'})
-        .min(0.01,'Field is required'),
-    openClose:z
-        .string({invalid_type_error:'Field must be a selected'})
-        .min(0.01,'Field is required'),
-    close:z
+        .optional(),
+    closePrice:z
         .string({invalid_type_error:'Close must be a number'})
-        .min(0.01,'Field is required'),
+        .optional()
 
-});
+    }) .refine((data) => {
+      if (data.status === 'Close') {
+        return !!data.closePrice && parseFloat(data.closePrice) > 0;
+      }
+      return true;
+    }, {
+      message: 'Close price is required when closing a trade',
+      path: ['close'],
+    })
+    .refine((data) => {
+      if (data.type === 'Short') {
+        return !!data.leverage && parseFloat(data.leverage) > 0;
+      }
+      return true;
+    }, {
+      message: 'Leverage is required when type is Short',
+      path: ['leverage'],
+    });
 
 export default function TradeForm() {
 
@@ -70,6 +84,7 @@ export default function TradeForm() {
     const [price,setPrice] = useState('')
     const [amount,setAmount] = useState('')
     const [closePrice,setClosePrice] = useState('')
+    const [leverage,setLeverage] = useState('')
 
 
 
@@ -79,7 +94,7 @@ export default function TradeForm() {
         defaultValues: {
         currency:'',
         price:'',
-        ammount:'',
+        amount:'',
         type:'',
         leverage:'',
         close:'',
@@ -88,8 +103,7 @@ export default function TradeForm() {
   
     const {control} = useForm()
     const watchType = form.watch("type");
-    const watchOpenClose = form.watch('openClose')
-
+    const watchStatus = form.watch('status')
     // useEffect(()=>{
     //     if (pln && rate){
     //         setStableCoins((Number(pln)/Number(rate)).toFixed(2))
@@ -98,12 +112,11 @@ export default function TradeForm() {
     // },[rate,pln])
 
     const handleSubmit = (data) => {
-        // Include stableCoins in the form data before submitting
+
         const formData = { ...data };
         console.log("Submitting form with data:", formData);
-    
-        // Pass formData to your addInflow function
-        // addInflow(formData); // Send data to your API
+
+        addTrade(formData); // Send data to your API
 
         
       };
@@ -118,7 +131,6 @@ export default function TradeForm() {
         <CardContent>
         <Form {...form}>
             <form  
-            // action={addInflow}
                 onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4"
             >
@@ -176,11 +188,11 @@ export default function TradeForm() {
                 {/* ✅ Rate Field */}
             <FormField
                 control={form.control}
-                name="ammount"
+                name="amount"
                 render={({ field }) => (
                  
                     <FormItem>
-                    <FormLabel>Ammount</FormLabel>
+                    <FormLabel>Amount</FormLabel>
                     <FormControl>
                         <Input
                         type="number"
@@ -193,7 +205,7 @@ export default function TradeForm() {
                           }}
                         />
                     </FormControl>
-                    <FormDescription>Put ammount</FormDescription>
+                    <FormDescription>Put amount</FormDescription>
                     <FormMessage />
                     </FormItem>
                 )}
@@ -213,11 +225,11 @@ export default function TradeForm() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Buy">Buy</SelectItem>
+                        <SelectItem value="Long">Long</SelectItem>
                         <SelectItem value="Short">Short</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormDescription>Select whether this is a Buy or Short trade</FormDescription>
+                    <FormDescription>Select whether this is a Long or Short trade</FormDescription>
                     <FormMessage />
                 </FormItem>
                 )}
@@ -238,7 +250,7 @@ export default function TradeForm() {
                         {...field}
                         onChange={(e) => {
                             field.onChange(e); // Preserve existing form behavior
-                            // setRate(e.target.value)
+                            setLeverage(e.target.value)
                           }}
                         />
                     </FormControl>
@@ -250,9 +262,9 @@ export default function TradeForm() {
             />
             )}
 
-<FormField
+              <FormField
                 control={form.control}
-                name="openClose"
+                name="status"
                 render={({ field }) => (
                  
                 <FormItem>
@@ -275,10 +287,10 @@ export default function TradeForm() {
             />
 
 
-           {watchOpenClose === "Close" && (
+           {watchStatus === "Close" && (
             <FormField
             control={form.control}
-                name="close"
+                name="closePrice"
                 render={({ field }) => (
               <FormItem>
                 <FormLabel>Close Price</FormLabel>
@@ -287,12 +299,10 @@ export default function TradeForm() {
                         type="number"
                         placeholder="85 000"
                         {...field}
-                        value={watchOpenClose==='Open' ? "1200":"3"}
+                        value={closePrice}
                         onChange={(e) => {
                             field.onChange(e); // Preserve existing form behavior
                             setClosePrice(e.target.value)
-                            // setClosePrice(watchOpenClose==='Open' ? 1200:3)
-                            
                           }}
                         />
                     </FormControl>
