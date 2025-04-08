@@ -5,7 +5,7 @@ import Sidebar from "./components/Sidebar";
 
 import Header from './components/Header';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-
+import CryptoList from "./components/CryptoList";
 
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] });
@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} flex items-start justify-between`} >
-        {/* <Sidebar/> */}
+        <CryptoList/>
         <main className='w-full h-full'>
           {/* <Header/> */}
           {children}

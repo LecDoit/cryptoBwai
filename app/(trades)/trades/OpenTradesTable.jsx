@@ -17,15 +17,11 @@ import {
     TableRow,
   } from "@/components/ui/table"
   
-
 import { Button } from "@/components/ui/button"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import DeleteButton from "./DeleteButton"
-
-
 export const dynamicParams = true
-
 export async function generateMetadata({params}){
     const supabase = createServerComponentClient({cookies})
 
@@ -37,10 +33,6 @@ export async function generateMetadata({params}){
         title:`Dojo helpdesk  | ${inflow?.id || "Trade not found"}`
     }
 }
-
-
-
-
 
 async function wrong(id) {
     const supabase = createServerComponentClient({cookies})
@@ -80,20 +72,29 @@ async function getTrade() {
 }
 
   
-  export async function OpenTradesTable() {
+export async function OpenTradesTable() {
 
     const trades = await getTrade()
     const supabase = createServerComponentClient({cookies})
     const {data} = await supabase.auth.getSession()
-    console.log(trades)
+    // const cookieData = await cookies().get('coinsData')
+
+    // if (cookieData){
+    //     console.log(cookieData)
+    //     const coins = JSON.parse(cookieData.value)
+        
+    // } else{
+    //     console.log('No coins data found inna dem cookies')
+    // }
+
 
     let stableCoins = 0
-    let pln = 0
-    let fxAvg = 0 
+    let revenueUSD = 0 
+    let revenuePLN = 0 
     const valuez = (trades.map((value)=>{
-      stableCoins = stableCoins +(value.stableCoins)
-      pln = pln +(value.pln)
-      fxAvg = fxAvg + (value.rate)
+      stableCoins = stableCoins +Number(value.amount)
+    //   revenueUSD = revenueUSD +(value.revenueUSD)
+    //   revenuePLN = revenuePLN +(value.revenuePLN)
     }))
   
     return (
@@ -109,8 +110,8 @@ async function getTrade() {
                 <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">ID</TableHead>
-                    <TableHead>Stable Coin (USD)</TableHead>
                     <TableHead>Currency</TableHead>
+                    <TableHead>Stable Coin (USD)</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Buy Price</TableHead>
                     <TableHead>Current Price</TableHead>
@@ -123,12 +124,13 @@ async function getTrade() {
                 {trades.map((trade) => (
                     <TableRow key={trade.id}>
                     <TableCell className="font-medium">{(trade.id)}</TableCell>
-                    <TableCell>{trade.amount}</TableCell>
                     <TableCell>{trade.currency}</TableCell>
+                    <TableCell>{trade.amount}</TableCell>
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
                     <TableCell>{'current price API CALL'}</TableCell>
-                    {/* <TableCell>{trade.rate}</TableCell> */}
+                    <TableCell>{'calc needed'}</TableCell>
+                    <TableCell>{'calc needed'}</TableCell>
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
                     </TableRow>
@@ -137,9 +139,14 @@ async function getTrade() {
                 <TableFooter>
                 <TableRow>
                     <TableCell >Total</TableCell>
-                    <TableCell>{pln}</TableCell>
-                    {/* <TableCell>{(fxAvg/trades.length).toFixed(2)} Avg</TableCell> */}
-                    {/* <TableCell className="text-right">${stableCoins.toFixed(2)}</TableCell>                     */}
+                    <TableCell></TableCell>
+                    {/* <TableCell>Total calc</TableCell> */}
+                    <TableCell className="text-right">${stableCoins.toFixed(2)}</TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell></TableCell>
+                    <TableCell>sum</TableCell>                    
+                    <TableCell>sum</TableCell>                    
                 </TableRow>
                 </TableFooter>
             </Table>

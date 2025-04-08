@@ -2,18 +2,34 @@
 
 import { useState, useEffect } from "react";
 
+// import { stringify } from "json5";
+
+
 export default function CryptoList() {
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
     useEffect(() => {
+
+
         async function fetchCoins() {
             try {
+                const stored = localStorage.getItem("coinsData")
+                // const storedCoins = 
+                if (stored){
+                    setCoins(JSON.parse(stored))
+                    setLoading(false)
+                }
+  
                 const res = await fetch("/api/coinmarketcap"); // Calls our API
                 const data = await res.json();
                 if (res.ok) {
+                    localStorage.setItem('coinsData',JSON.stringify(data.data))
+                    
                     setCoins(data.data);
+
                 } else {
                     throw new Error(data.error || "Failed to load coins");
                 }
@@ -30,16 +46,5 @@ export default function CryptoList() {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
-    return (
-        <div>
-            <h2>Top Cryptocurrencies</h2>
-            <ul>
-                {coins.slice(0, 10).map((coin) => (
-                    <li key={coin.id}>
-                        <strong>{coin.name} ({coin.symbol})</strong> - ${coin.quote.USD.price.toFixed(2)}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+    return null
 }
