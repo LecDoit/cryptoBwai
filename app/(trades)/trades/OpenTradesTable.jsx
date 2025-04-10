@@ -19,8 +19,10 @@ import {
   
 import { Button } from "@/components/ui/button"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers"
+import { cookies,headers } from "next/headers"
 import DeleteButton from "./DeleteButton"
+
+
 export const dynamicParams = true
 export async function generateMetadata({params}){
     const supabase = createServerComponentClient({cookies})
@@ -33,6 +35,8 @@ export async function generateMetadata({params}){
         title:`Dojo helpdesk  | ${inflow?.id || "Trade not found"}`
     }
 }
+
+
 
 async function wrong(id) {
     const supabase = createServerComponentClient({cookies})
@@ -67,25 +71,46 @@ async function getTrade() {
     if (error){
         console.log(error.message)
     }
+
+
+    
     return data
   
 }
+async function getPrices() {
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+    const host = headers().get("host");
 
   
-export async function OpenTradesTable() {
+    const res = await fetch(`${protocol}://${host}/api/coinmarketcap`);
+    const data = await res.json();
+  
+    if (res.ok) {
+    //   console.log(data); // Do whatever you need
+    } else {
+      throw new Error(data.error || "Failed to load coins");
+    }
+
+    return data.data
+  }
+  
+
+
+  
+export async function OpenTradesTable({prices}) {
+    // console.log(prices)
 
     const trades = await getTrade()
+
     const supabase = createServerComponentClient({cookies})
     const {data} = await supabase.auth.getSession()
-    // const cookieData = await cookies().get('coinsData')
 
-    // if (cookieData){
-    //     console.log(cookieData)
-    //     const coins = JSON.parse(cookieData.value)
-        
-    // } else{
-    //     console.log('No coins data found inna dem cookies')
-    // }
+    const currPrice = (arr,arg)=>{
+        return arr.find(el=>el.symbol==arg)
+    }
+
+    // console.log(currPrice(prices,'BTC'))
+    
 
 
     let stableCoins = 0
@@ -93,6 +118,7 @@ export async function OpenTradesTable() {
     let revenuePLN = 0 
     const valuez = (trades.map((value)=>{
       stableCoins = stableCoins +Number(value.amount)
+    //   const currentPrice = 
     //   revenueUSD = revenueUSD +(value.revenueUSD)
     //   revenuePLN = revenuePLN +(value.revenuePLN)
     }))
@@ -128,7 +154,7 @@ export async function OpenTradesTable() {
                     <TableCell>{trade.amount}</TableCell>
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
-                    <TableCell>{'current price API CALL'}</TableCell>
+                    <TableCell>{(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}</TableCell>
                     <TableCell>{'calc needed'}</TableCell>
                     <TableCell>{'calc needed'}</TableCell>
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}

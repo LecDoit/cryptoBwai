@@ -6,7 +6,7 @@ import {redirect} from 'next/navigation'
 
 
 
-export default async function Home() {
+export default async function Home({prices}) {
 
   const supabase = createServerComponentClient({cookies})
   const {data} = await supabase.auth.getSession()
