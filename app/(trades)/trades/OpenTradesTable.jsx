@@ -108,19 +108,21 @@ export async function OpenTradesTable({prices}) {
     const currPrice = (arr,arg)=>{
         return arr.find(el=>el.symbol==arg)
     }
-
+    const calcProfit = (currentP,buyP)=>{
+        return currentP-buyP
+    }
     // console.log(currPrice(prices,'BTC'))
     
 
 
     let stableCoins = 0
-    let revenueUSD = 0 
-    let revenuePLN = 0 
-    const valuez = (trades.map((value)=>{
-      stableCoins = stableCoins +Number(value.amount)
-    //   const currentPrice = 
-    //   revenueUSD = revenueUSD +(value.revenueUSD)
-    //   revenuePLN = revenuePLN +(value.revenuePLN)
+    let revenueTotal = 0
+    let percentageTotal = 0
+
+    const valuez = (trades.map((trade)=>{
+      stableCoins = stableCoins +Number(trade.amount)
+      revenueTotal = revenueTotal+(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount)
+      percentageTotal = percentageTotal+((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1).toFixed(2)*100
     }))
   
     return (
@@ -142,7 +144,7 @@ export async function OpenTradesTable({prices}) {
                     <TableHead>Buy Price</TableHead>
                     <TableHead>Current Price</TableHead>
                     <TableHead className="text-right">Revenue USD</TableHead>
-                    <TableHead className="text-right">Revenue PLN</TableHead>
+                    <TableHead className="text-right">%</TableHead>
                     <TableHead className="text-center">Remove</TableHead>
                 </TableRow>
                 </TableHeader>
@@ -155,8 +157,9 @@ export async function OpenTradesTable({prices}) {
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
                     <TableCell>{(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}</TableCell>
-                    <TableCell>{'calc needed'}</TableCell>
-                    <TableCell>{'calc needed'}</TableCell>
+                    <TableCell>{(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount).toFixed(2)}</TableCell>
+                    <TableCell>{((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1).toFixed(2)*100}%</TableCell>
+
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
                     </TableRow>
@@ -171,8 +174,8 @@ export async function OpenTradesTable({prices}) {
                     <TableCell></TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell>sum</TableCell>                    
-                    <TableCell>sum</TableCell>                    
+                    <TableCell>{revenueTotal.toFixed(2)}</TableCell>                    
+                    <TableCell>{(percentageTotal/trades.length).toFixed(2)}%</TableCell>                    
                 </TableRow>
                 </TableFooter>
             </Table>
