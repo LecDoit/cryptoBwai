@@ -1,16 +1,15 @@
 'use server'
-import { cookies } from "next/headers"
+import { cookies , headers} from "next/headers"
 
 
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { WEBPACK_LAYERS } from "next/dist/lib/constants"
+
 
 export async function addTrade(formData){
 
     
-    console.log('##########################',formData)
     // const trade = Object.fromEntries(formData)
     
 
@@ -30,9 +29,13 @@ export async function addTrade(formData){
         throw new Error('Could not add the new trade')
         
     }
+    const path = headers().get('referer')
 
-    revalidatePath('/trades')
-    redirect('/trades')
+    const url = new URL(path)
+    const currentPath = url.pathname
+
+    revalidatePath(currentPath)
+    redirect(currentPath)
 }
 
 
@@ -52,7 +55,12 @@ export async function deleteTrade(id){
         throw new Error('Could not delete the trade',error)
         
     }
-    revalidatePath('/trades')
-    redirect('/trades')
+    const path = headers().get('referer')
+
+    const url = new URL(path)
+    const currentPath = url.pathname
+
+    revalidatePath(currentPath)
+    redirect(currentPath)
 
 }

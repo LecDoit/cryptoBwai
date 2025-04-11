@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies,headers } from "next/headers"
-import DeleteButton from "./DeleteButton"
+import DeleteButton from "../DeleteButton"
 
 
 export const dynamicParams = true
@@ -67,7 +67,7 @@ async function getTrade() {
       .from('trades')
       .select()
       .eq('user_email',sessionEmail)
-      .eq('status','Open')
+      .eq('status','Close')
     if (error){
         console.log(error.message)
     }
@@ -97,7 +97,7 @@ async function getPrices() {
 
 
   
-export async function OpenTradesTable({prices}) {
+export async function ClosedTradesTable({prices}) {
     // console.log(prices)
 
     const trades = await getTrade()
@@ -121,20 +121,20 @@ export async function OpenTradesTable({prices}) {
 
     const valuez = (trades.map((trade)=>{
       stableCoins = stableCoins +Number(trade.amount)
-      revenueTotal = revenueTotal+(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount)
-      percentageTotal = percentageTotal+((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1).toFixed(2)*100
+      revenueTotal = revenueTotal+(((trade.closePrice)/trade.price-1)*trade.amount)
+      percentageTotal = percentageTotal+(trade.closePrice/trade.price-1).toFixed(2)*100
     }))
   
     return (
        
         <Card className={"w-[800px]  m-4"}>
             <CardHeader>
-                <CardTitle>Open Trades List</CardTitle>
-                <CardDescription>Here you can see your Open Trades</CardDescription>
+                <CardTitle>Closed Trades List</CardTitle>
+                <CardDescription>Here you can see your Closed Trades</CardDescription>
             </CardHeader>
             <CardContent>
             <Table>
-                <TableCaption>A list of your recent trades.</TableCaption>
+                <TableCaption>A list of your past trades.</TableCaption>
                 <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">ID</TableHead>
@@ -142,7 +142,7 @@ export async function OpenTradesTable({prices}) {
                     <TableHead>Stable Coin (USD)</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Buy Price</TableHead>
-                    <TableHead>Current Price</TableHead>
+                    <TableHead>Sell Price</TableHead>
                     <TableHead className="text-right">Revenue USD</TableHead>
                     <TableHead className="text-right">%</TableHead>
                     <TableHead className="text-center">Remove</TableHead>
@@ -156,9 +156,9 @@ export async function OpenTradesTable({prices}) {
                     <TableCell>{trade.amount}</TableCell>
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
-                    <TableCell>{(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}</TableCell>
-                    <TableCell>{(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount).toFixed(2)}</TableCell>
-                    <TableCell>{((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1).toFixed(2)*100}%</TableCell>
+                    <TableCell>{(trade.closePrice)}</TableCell>
+                    <TableCell>{((trade.closePrice/trade.price-1)*trade.amount).toFixed(2)}</TableCell>
+                    <TableCell>{((trade.closePrice/trade.price-1)*100).toFixed(2)}%</TableCell>
 
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>

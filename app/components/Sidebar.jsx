@@ -43,9 +43,29 @@ const Sidebar = async () => {
                     <CommandItem  className='cursor-pointer'>
                       <Link href='/inflow/'>Inflow</Link>
                     </CommandItem>
-                    <CommandItem  className='cursor-pointer'>
+
+
+
+                    {/* <CommandItem  className='cursor-pointer'>
                       <Link href='/trades/'>Trades</Link>
+                    </CommandItem> */}
+
+                    <CommandItem className="cursor-default opacity-70 hover:bg-transparent">
+                    <span className="font-medium">Trades</span>
                     </CommandItem>
+
+                    {/* Subitems */}
+                    <div className="pl-4">
+                      <CommandItem className="cursor-pointer">
+                        <Link href="/trades/open">Open Trades</Link>
+                      </CommandItem>
+                      <CommandItem className="cursor-pointer">
+                        <Link href="/trades/closed">Closed Trades</Link>
+                      </CommandItem>
+                    </div>
+
+
+
                   </CommandGroup>
                 <CommandSeparator />
 
