@@ -108,11 +108,24 @@ export async function OpenTradesTable({prices}) {
     const currPrice = (arr,arg)=>{
         return arr.find(el=>el.symbol==arg)
     }
-    const calcProfit = (currentP,buyP)=>{
-        return currentP-buyP
+
+        
+    const calculateProfit = (type,amount,currency,buyPrice,sellPrice,leverage)=>{
+        const positionSize = amount*(leverage ? leverage : 1)
+        const quantity = positionSize / buyPrice
+
+        const pnlShort = (buyPrice-sellPrice) * quantity
+        const pnlLong = (sellPrice-buyPrice) * quantity
+        const roeShort = (pnlShort/amount )*100
+        const roeLong = (pnlLong/amount )*100
+
+        if (type=='Short'){
+            return {"pnl":pnlShort,'roe':roeShort}
+        }
+        if (type=='Long'){
+            return {"pnl":pnlLong,'roe':roeLong}
+        }
     }
-    // console.log(currPrice(prices,'BTC'))
-    
 
 
     let stableCoins = 0
@@ -121,8 +134,11 @@ export async function OpenTradesTable({prices}) {
 
     const valuez = (trades.map((trade)=>{
       stableCoins = stableCoins +Number(trade.amount)
-      revenueTotal = revenueTotal+(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount)
-      percentageTotal = percentageTotal+((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1).toFixed(2)*100
+
+    revenueTotal = revenueTotal +
+    calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency).quote.USD.price,trade.leverage).pnl
+
+      percentageTotal = percentageTotal+calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency).quote.USD.price,trade.leverage).roe
     }))
   
     return (
@@ -157,9 +173,10 @@ export async function OpenTradesTable({prices}) {
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
                     <TableCell>{(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}</TableCell>
-                    <TableCell>{(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*trade.amount).toFixed(2)}</TableCell>
-                    <TableCell>{(((currPrice(prices,trade.currency).quote.USD.price)/trade.price-1)*100).toFixed(2)}%</TableCell>
-
+                    <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency)
+                            .quote.USD.price,trade.leverage).pnl).toFixed(2)}</TableCell>
+                    <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency)
+                            .quote.USD.price,trade.leverage).roe).toFixed(2)}%</TableCell>
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
                     </TableRow>

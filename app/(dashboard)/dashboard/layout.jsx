@@ -2,7 +2,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import React from 'react'
 import {cookies} from 'next/headers'
-import Navbar from '@/app/components/Navbar'
+import Header from '@/app/components/Header'
+import Sidebar from '@/app/components/Sidebar'
 import {redirect} from 'next/navigation'
 
 export default async function DashboardLayout({children}) {
@@ -16,9 +17,17 @@ export default async function DashboardLayout({children}) {
 
   return (
 
-    <>
-    <Navbar user={data.session.user}/>    
-    {children}
-    </>
+    <div className='flex items-start justify-between' >
+      <Sidebar/>
+      <div className='w-full h-full'>
+        <Header/>
+        {children}
+      </div>
+    </div>
   )
 }
+
+
+
+
+

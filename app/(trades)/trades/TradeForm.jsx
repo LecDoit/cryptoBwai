@@ -87,8 +87,6 @@ export default function TradeForm() {
     const [leverage,setLeverage] = useState('')
 
 
-
-    // ✅ useForm hook from React Hook Form
     const form = useForm({
         resolver: zodResolver(tradeSchema),
         defaultValues: {
@@ -104,12 +102,7 @@ export default function TradeForm() {
     const {control} = useForm()
     const watchType = form.watch("type");
     const watchStatus = form.watch('status')
-    // useEffect(()=>{
-    //     if (pln && rate){
-    //         setStableCoins((Number(pln)/Number(rate)).toFixed(2))
-    //     } 
-     
-    // },[rate,pln])
+
 
     const handleSubmit = (data) => {
 

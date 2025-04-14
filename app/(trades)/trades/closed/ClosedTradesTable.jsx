@@ -108,11 +108,24 @@ export async function ClosedTradesTable({prices}) {
     const currPrice = (arr,arg)=>{
         return arr.find(el=>el.symbol==arg)
     }
-    const calcProfit = (currentP,buyP)=>{
-        return currentP-buyP
-    }
-    // console.log(currPrice(prices,'BTC'))
     
+    const calculateProfit = (type,amount,currency,buyPrice,sellPrice,leverage)=>{
+        const positionSize = amount*(leverage ? leverage : 1)
+        const quantity = positionSize / buyPrice
+
+        const pnlShort = (buyPrice-sellPrice) * quantity
+        const pnlLong = (sellPrice-buyPrice) * quantity
+        const roeShort = (pnlShort/amount )*100
+        const roeLong = (pnlLong/amount )*100
+
+        if (type=='Short'){
+            return {"pnl":pnlShort,'roe':roeShort}
+        }
+        if (type=='Long'){
+            return {"pnl":pnlLong,'roe':roeLong}
+        }
+    }
+
 
 
     let stableCoins = 0
@@ -121,9 +134,13 @@ export async function ClosedTradesTable({prices}) {
 
     const valuez = (trades.map((trade)=>{
       stableCoins = stableCoins +Number(trade.amount)
-      revenueTotal = revenueTotal+(((trade.closePrice)/trade.price-1)*trade.amount)
-      percentageTotal = percentageTotal+(trade.closePrice/trade.price-1).toFixed(2)*100
+      percentageTotal = percentageTotal+calculateProfit(trade.type,trade.amount,trade.currency,trade.price,trade.closePrice,trade.leverage).roe
+
+      revenueTotal = revenueTotal +
+                calculateProfit(trade.type,trade.amount,trade.currency,trade.price,trade.closePrice,trade.leverage).pnl
+
     }))
+
   
     return (
        
@@ -157,8 +174,13 @@ export async function ClosedTradesTable({prices}) {
                     <TableCell>{trade.type}</TableCell>
                     <TableCell>{trade.price}</TableCell>
                     <TableCell>{(trade.closePrice)}</TableCell>
-                    <TableCell>{((trade.closePrice/trade.price-1)*trade.amount).toFixed(2)}</TableCell>
-                    <TableCell>{((trade.closePrice/trade.price-1)*100).toFixed(2)}%</TableCell>
+                
+                    <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,trade.closePrice,trade.leverage).pnl)}</TableCell>
+
+                    <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,trade.closePrice,trade.leverage).roe)}%</TableCell>
+
+                    {/* <TableCell>{((trade.closePrice/trade.price-1)*trade.amount).toFixed(2)}</TableCell> */}
+                    {/* <TableCell>{((trade.closePrice/trade.price-1)*100).toFixed(2)}%</TableCell> */}
 
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
