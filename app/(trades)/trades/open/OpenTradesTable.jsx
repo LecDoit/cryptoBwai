@@ -18,6 +18,8 @@ import {
   } from "@/components/ui/table"
   
 import { Button } from "@/components/ui/button"
+import {currPrice} from "@/app/helpers/helpers"
+
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies,headers } from "next/headers"
 import DeleteButton from "../DeleteButton"
@@ -105,9 +107,9 @@ export async function OpenTradesTable({prices}) {
     const supabase = createServerComponentClient({cookies})
     const {data} = await supabase.auth.getSession()
 
-    const currPrice = (arr,arg)=>{
-        return arr.find(el=>el.symbol==arg)
-    }
+    // const currPrice = (arr,arg)=>{
+    //     return arr.find(el=>el.symbol==arg)
+    // }
 
         
     const calculateProfit = (type,amount,currency,buyPrice,sellPrice,leverage)=>{
@@ -138,7 +140,7 @@ export async function OpenTradesTable({prices}) {
     revenueTotal = revenueTotal +
     calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency).quote.USD.price,trade.leverage).pnl
 
-      percentageTotal = percentageTotal+calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency).quote.USD.price,trade.leverage).roe
+    percentageTotal = percentageTotal+calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency).quote.USD.price,trade.leverage).roe
     }))
   
     return (
