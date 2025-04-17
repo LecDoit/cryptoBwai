@@ -54,7 +54,8 @@ const tradeSchema = z.object({
         .min(0.01,'Field is required'),
     leverage:z
         .string({invalid_type_error:'Levarage must be a number'})
-        .optional(),
+        .optional()
+        .default("1"),
     closePrice:z
         .string({invalid_type_error:'Close must be a number'})
         .optional()
@@ -94,7 +95,7 @@ export default function TradeForm() {
         price:'',
         amount:'',
         type:'',
-        leverage:'',
+        leverage:"1",
         close:'',
         },
     });
@@ -239,7 +240,7 @@ export default function TradeForm() {
                 <FormControl>
                         <Input
                         type="number"
-                        placeholder="0.1"
+                        placeholder="1"
                         {...field}
                         onChange={(e) => {
                             field.onChange(e); // Preserve existing form behavior
