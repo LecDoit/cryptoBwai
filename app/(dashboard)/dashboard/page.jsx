@@ -95,8 +95,8 @@ export default async function Dashboard() {
         } else {
           // totalPerformanceClose = totalPerformanceClose + (item.amount*item.leverage*item.closePrice)
 
-          // totalPerformanceClose = totalPerformanceClose +
-          // calculateProfit(item.type,item.amount,item.currency,item.price,item.closePrice,item.leverage).pnl
+          totalPerformanceClose = totalPerformanceClose +
+          calculateProfit(item.type,item.amount,item.currency,item.price,item.closePrice,item.leverage).pnl
         }
 
         if (item.type=="Short"){
@@ -105,7 +105,7 @@ export default async function Dashboard() {
           } else{
             positiveClose=positiveClose+1
           }
-        }``
+        }
         if (item.type=="Long"){
           if (item.price<item.closePrice)  {
             positiveClose=positiveClose+1
@@ -116,21 +116,22 @@ export default async function Dashboard() {
         }
       }
       if (item.status=='Open'){
-        // if (item.leverage==''){
-        //   totalPerformanceClose = totalPerformanceClose + (item.amount*1*item.closePrice)
-        //   calculateProfit(item.type,item.amount,item.currency,item.price,item.closePrice,1).pnl
-        // } else {
-        //   totalPerformanceClose = totalPerformanceClose + (item.amount*item.leverage*item.closePrice)
+        if (item.leverage==''){
+          totalPerformanceOpen = totalPerformanceOpen +
+           calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,1).pnl
+     
+        } else {
+          totalPerformanceOpen = totalPerformanceOpen +
+          calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,item.leverage).pnl
 
-        //   // revenueTotalClose = revenueTotalClose +
-        //   // calculateProfit(item.type,item.amount,item.currency,item.price,item.closePrice,item.leverage).pnl
-        // }
+
+        }
         if (item.type=='Short'){
 
           if (item.leverage==''){
-            totalPerformanceOpen = totalPerformanceOpen + (item.amount*1*currPrice(prices,item.currency).quote.USD.price)
+            // totalPerformanceOpen = totalPerformanceOpen + (item.amount*1*currPrice(prices,item.currency).quote.USD.price)
           } else {
-            totalPerformanceOpen = totalPerformanceOpen + (item.amount*item.leverage*currPrice(prices,item.currency).quote.USD.price)
+            // totalPerformanceOpen = totalPerformanceOpen + (item.amount*item.leverage*currPrice(prices,item.currency).quote.USD.price)
           }
 
           if (item.price<currPrice(prices,item.currency).quote.USD.price){
@@ -167,9 +168,9 @@ export default async function Dashboard() {
 
           <Cards title={'Closed Trades'} icon={FolderClosed} positiveCount={positiveClose} negativeCount={negativeClose} description={'Closed positions'}/>
 
-          <CardsPerformance title={'Open Performance'} icon={BadgePercent} revenue={revenueTotalClose.toFixed(2)} description={'Total Performance of open deals'}/>
+          <CardsPerformance title={'Open Performance'} icon={BadgePercent} revenue={totalPerformanceOpen.toFixed(2)} description={'Total Performance of open deals'}/>
 
-          <CardsPerformance title={'Closed Performance'} icon={BadgePercent} revenue={revenueTotalClose.toFixed(2)} description={'Total Performance of closed deals'}/>
+          <CardsPerformance title={'Closed Performance'} icon={BadgePercent} revenue={totalPerformanceClose.toFixed(2)} description={'Total Performance of closed deals'}/>
           
           {/* <Cards title={'Win Ratet'} icon='null' positiveCount={10} negativeCount={5} description={'Closed positions'}/> */}
         </div>
