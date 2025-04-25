@@ -1,6 +1,7 @@
 import { Cards} from "./Cards"
 import { CardsPerformance } from "./CardsPerformance"
 import {CardsAvailableAmount} from "./CardsAvailableAmount"
+import {AverageCard} from './AverageCard'
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies,headers } from "next/headers"
 import {currPrice,calculateProfit} from "@/app/helpers/helpers"
@@ -93,9 +94,9 @@ export default async function Dashboard() {
   let investedAmount = 0 
   let inflowAmount = 0 
 
-  inflow.map((item)=>{
-    inflowAmount = Number(inflowAmount) + Number(item.stableCoins)
-  })
+    inflow.map((item)=>{
+      inflowAmount = Number(inflowAmount) + Number(item.stableCoins)
+    })
 
 
 
@@ -178,7 +179,10 @@ export default async function Dashboard() {
           <CardsPerformance title={'Closed Performance'} icon={BadgePercent} revenue={totalPerformanceClose.toFixed(2)} description={'Total Performance of closed deals'}/>
           
           <CardsAvailableAmount title={'Available to trade'} icon={DollarSign} positiveCount={investedAmount.toFixed(0)} negativeCount={(inflowAmount+totalPerformanceClose).toFixed(0)} description={'Total inflow and revenue available to trade'}/>
+
         </div>
+
+        <AverageCard prices={prices}/>
       </main>
     )
   }

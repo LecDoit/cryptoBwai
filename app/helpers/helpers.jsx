@@ -18,3 +18,38 @@ export const calculateProfit = (type,amount,currency,buyPrice,sellPrice,leverage
         return {"pnl":pnlLong,'roe':roeLong}
     }
 }
+
+
+export const pivotDashboard = (data)=>{
+
+    const summary = {}
+
+    for (const trade of data){
+        const currency = trade.currency
+        const amount = parseFloat(trade.amount)
+        const price = parseFloat(trade.price)
+
+        if (!summary[currency]){
+            summary[currency] = {
+                currency,
+                totalAmount:0,
+                totalPrice: 0,
+                tradeCount: 0 
+            }
+        }
+
+        summary[currency].totalAmount+=amount
+        summary[currency].totalPrice+=price
+        summary[currency].tradeCount+=1
+    }
+
+    const results = Object.values(summary).map((item)=>({
+        currency:item.currency,
+        totalAmount:item.totalAmount,
+        averagePrice:item.totalPrice/item.tradeCount,
+        tradeCount:item.tradeCount
+
+    }))
+    
+    return results
+}
