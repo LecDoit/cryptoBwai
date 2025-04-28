@@ -109,7 +109,8 @@ export async function AverageCard({prices}) {
 
 
     // console.log(trades)
-    console.log(pivotDashboard(trades))
+    const pivot = (pivotDashboard(trades,prices))
+    console.log(pivot)
 
     let stableCoins = 0
     let revenueTotal = 0
@@ -137,11 +138,13 @@ export async function AverageCard({prices}) {
                 <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">Currency</TableHead>
+                    <TableHead>Number of Trades</TableHead>
                     <TableHead>Amount of USD</TableHead>
-                    <TableHead>Average USD invested</TableHead>
+                    <TableHead>Average USD per Trade</TableHead>
                     <TableHead>Average buy price</TableHead>
                     <TableHead>Average Revenue</TableHead>
-                    <TableHead>Total Return</TableHead>
+                    <TableHead>Revenue</TableHead>
+                    <TableHead>Performance</TableHead>
                     {/* <TableHead className="text-right">Revenue USD</TableHead>
                     <TableHead className="text-right">%</TableHead>
                     <TableHead className="text-center">Remove</TableHead> */}
@@ -149,22 +152,19 @@ export async function AverageCard({prices}) {
                 </TableHeader>
                 <TableBody>
                     
-                {/* {trades.map((trade) => ( */}
-                    {/* <TableRow key={trade.id}> */}
-                    {/* <TableCell className="font-medium">{(trade.id)}</TableCell> */}
-                    {/* <TableCell>{trade.currency}</TableCell> */}
-                    {/* <TableCell>{trade.amount}</TableCell> */}
-                    {/* <TableCell>{trade.type}</TableCell> */}
-                    {/* <TableCell>{trade.price}</TableCell> */}
-                    {/* <TableCell>{(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}</TableCell> */}
-                    {/* <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency)
-                            .quote.USD.price,trade.leverage).pnl).toFixed(2)}</TableCell> */}
-                    {/* <TableCell>{(calculateProfit(trade.type,trade.amount,trade.currency,trade.price,currPrice(prices,trade.currency)
-                            .quote.USD.price,trade.leverage).roe).toFixed(2)}%</TableCell> */}
-                    {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
-                    {/* </TableRow> */}
+                {pivot.map((trade) => (
+                    <TableRow key={trade.id}> 
+                        <TableCell className="font-medium">{(trade.currency)}</TableCell> 
+                        <TableCell>{trade.tradeCount}</TableCell> 
+                        <TableCell>{trade.totalAmount.toFixed(2)}</TableCell> 
+                        <TableCell>{trade.averageAmount.toFixed(2)}</TableCell> 
+                        <TableCell>{trade.averagePrice.toFixed(2)}</TableCell> 
+                        <TableCell>{trade.averageRevenue.toFixed(2)}</TableCell> 
+                        <TableCell>{trade.revenue.toFixed(2)}</TableCell> 
+                        <TableCell className="text-right">{trade.performance.toFixed(2)}%</TableCell>
+                    </TableRow>
 
-                {/* ))} */}
+                ))}
                 </TableBody>
                 <TableFooter>
                 <TableRow>
