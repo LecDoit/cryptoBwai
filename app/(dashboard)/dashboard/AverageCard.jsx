@@ -166,19 +166,7 @@ export async function AverageCard({prices}) {
 
                 ))}
                 </TableBody>
-                <TableFooter>
-                <TableRow>
-                    <TableCell >Total</TableCell>
-                    <TableCell></TableCell>
-                    {/* <TableCell>Total calc</TableCell> */}
-                    <TableCell className="text-right"></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>                    
-                    <TableCell></TableCell>                    
-                </TableRow>
-                </TableFooter>
+
             </Table>
                 </CardContent>
 
