@@ -24,6 +24,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies,headers } from "next/headers"
 import DeleteButton from "../DeleteButton"
 import { calculateProfit } from "@/app/helpers/helpers"
+import EditTradeButton from './OpenTradeDrawer'
 
 
 export const dynamicParams = true
@@ -80,22 +81,21 @@ async function getTrade() {
     return data
   
 }
-async function getPrices() {
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-    const host = headers().get("host");
+// async function getPrices() {
+//     const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+//     const host = headers().get("host");
 
   
-    const res = await fetch(`${protocol}://${host}/api/coinmarketcap`);
-    const data = await res.json();
+//     const res = await fetch(`${protocol}://${host}/api/coinmarketcap`);
+//     const data = await res.json();
   
-    if (res.ok) {
-    //   console.log(data); // Do whatever you need
-    } else {
-      throw new Error(data.error || "Failed to load coins");
-    }
+//     if (res.ok) {
+//     } else {
+//       throw new Error(data.error || "Failed to load coins");
+//     }
 
-    return data.data
-  }
+//     return data.data
+//   }
   
 
 
@@ -108,27 +108,6 @@ export async function OpenTradesTable({prices}) {
     const supabase = createServerComponentClient({cookies})
     const {data} = await supabase.auth.getSession()
 
-    // const currPrice = (arr,arg)=>{
-    //     return arr.find(el=>el.symbol==arg)
-    // }
-
-        
-    // const calculateProfit = (type,amount,currency,buyPrice,sellPrice,leverage)=>{
-    //     const positionSize = amount*(leverage ? leverage : 1)
-    //     const quantity = positionSize / buyPrice
-
-    //     const pnlShort = (buyPrice-sellPrice) * quantity
-    //     const pnlLong = (sellPrice-buyPrice) * quantity
-    //     const roeShort = (pnlShort/amount )*100
-    //     const roeLong = (pnlLong/amount )*100
-
-    //     if (type=='Short'){
-    //         return {"pnl":pnlShort,'roe':roeShort}
-    //     }
-    //     if (type=='Long'){
-    //         return {"pnl":pnlLong,'roe':roeLong}
-    //     }
-    // }
 
 
     let stableCoins = 0
@@ -170,6 +149,7 @@ export async function OpenTradesTable({prices}) {
                 <TableBody>
                 {trades.map((trade) => (
                     <TableRow key={trade.id}>
+
                     <TableCell className="font-medium">{(trade.id)}</TableCell>
                     <TableCell>{trade.currency}</TableCell>
                     <TableCell>{trade.amount}</TableCell>
@@ -182,6 +162,9 @@ export async function OpenTradesTable({prices}) {
                             .quote.USD.price,trade.leverage).roe).toFixed(2)}%</TableCell>
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
+                    <TableCell>
+                        <EditTradeButton trade={trade}/>
+                    </TableCell>
                     </TableRow>
                 ))}
                 </TableBody>

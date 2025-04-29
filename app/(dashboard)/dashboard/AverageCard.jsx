@@ -145,9 +145,6 @@ export async function AverageCard({prices}) {
                     <TableHead>Average Revenue</TableHead>
                     <TableHead>Revenue</TableHead>
                     <TableHead>Performance</TableHead>
-                    {/* <TableHead className="text-right">Revenue USD</TableHead>
-                    <TableHead className="text-right">%</TableHead>
-                    <TableHead className="text-center">Remove</TableHead> */}
                 </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -165,7 +162,7 @@ export async function AverageCard({prices}) {
                     </TableRow>
 
                 ))}
-                </TableBody>
+                </TableBody>``
 
             </Table>
                 </CardContent>
