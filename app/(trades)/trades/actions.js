@@ -64,3 +64,32 @@ export async function deleteTrade(id){
     redirect(currentPath)
 
 }
+
+
+
+export async function updateTrade(id, formData) {
+    const supabase = createServerActionClient({ cookies: () => cookies() });
+    console.log('works')
+  
+    const { data: { session } } = await supabase.auth.getSession();
+  
+    const { error } = await supabase
+      .from("trades")
+      .update({
+        ...formData,
+        user_email: session.user.email, // Optional: update user email
+      })
+      .eq("id", id);
+  
+    if (error) {
+      console.error("Could not update the trade:", error);
+      throw new Error("Could not update the trade");
+    }
+  
+    const path = headers().get("referer");
+    const url = new URL(path);
+    const currentPath = url.pathname;
+  
+    revalidatePath(currentPath);
+    redirect(currentPath);
+  }

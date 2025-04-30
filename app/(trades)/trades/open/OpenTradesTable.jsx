@@ -163,7 +163,7 @@ export async function OpenTradesTable({prices}) {
                     {/* <TableCell className="text-right">{trade.stableCoins}</TableCell> */}
                     <TableCell className="text-center"><DeleteButton id={trade.id}/></TableCell>
                     <TableCell>
-                        <EditTradeButton trade={trade}/>
+                        <EditTradeButton trade={trade} price={(currPrice(prices,trade.currency).quote.USD.price).toFixed(2)}/>
                     </TableCell>
                     </TableRow>
                 ))}
