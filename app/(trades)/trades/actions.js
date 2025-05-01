@@ -17,6 +17,10 @@ export async function addTrade(formData){
 
 
     const {data:{session}} = await supabase.auth.getSession()
+    console.log({
+      ...formData,
+      user_email:session.user.email
+  })
 
     const {error} = await supabase.from('trades')
     .insert({
@@ -41,9 +45,7 @@ export async function addTrade(formData){
 
 export async function deleteTrade(id){
 
-
     const supabase = createServerActionClient({cookies})
-
 
     const {error} = await supabase.from('trades')
     .delete()
@@ -68,10 +70,14 @@ export async function deleteTrade(id){
 
 
 export async function updateTrade(id, formData) {
-    const supabase = createServerActionClient({ cookies: () => cookies() });
-    console.log('works')
+    const supabase = createServerActionClient({cookies})
+
   
     const { data: { session } } = await supabase.auth.getSession();
+    console.log({
+      ...formData,
+      user_email:session.user.email
+  })
   
     const { error } = await supabase
       .from("trades")
