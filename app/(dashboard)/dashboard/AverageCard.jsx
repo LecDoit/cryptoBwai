@@ -110,7 +110,7 @@ export async function AverageCard({prices}) {
 
     // console.log(trades)
     const pivot = (pivotDashboard(trades,prices))
-    console.log(pivot)
+    // console.log(pivot)
 
     let stableCoins = 0
     let revenueTotal = 0
@@ -162,7 +162,7 @@ export async function AverageCard({prices}) {
                     </TableRow>
 
                 ))}
-                </TableBody>``
+                </TableBody>
 
             </Table>
                 </CardContent>

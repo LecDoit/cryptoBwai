@@ -6,6 +6,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies,headers } from "next/headers"
 import {currPrice,calculateProfit} from "@/app/helpers/helpers"
 import {FolderOpen,FolderClosed,BadgePercent,DollarSign} from 'lucide-react'
+import {Component} from './PieChart'
 
 
 export const dynamicParams = true
@@ -84,6 +85,7 @@ export default async function Dashboard() {
 
   const supabase = createServerComponentClient({cookies})
 
+  console.log(trades)
 
   let positiveClose = 0
   let negativeClose = 0
@@ -93,6 +95,16 @@ export default async function Dashboard() {
   let totalPerformanceClose = 0 
   let investedAmount = 0 
   let inflowAmount = 0 
+  const piechartArray = []
+
+  const pieChartFactory = (trade)=>{
+    const curr = trade.currency
+    const amount = trade.amount
+    console.log(piechartArray)
+
+    return {curremcy:curr,amount:amount}
+
+  }
 
     inflow.map((item)=>{
       inflowAmount = Number(inflowAmount) + Number(item.stableCoins)
@@ -102,8 +114,6 @@ export default async function Dashboard() {
 
     trades.map((item)=>{
    
-
-
       if (item.status=='Close'){
         if (item.leverage==''){
           totalPerformanceClose = totalPerformanceClose + 
@@ -131,6 +141,7 @@ export default async function Dashboard() {
       }
       if (item.status=='Open'){
         investedAmount = investedAmount+ Number(item.amount)
+        piechartArray.push(pieChartFactory(item))
         if (item.leverage==''){
           totalPerformanceOpen = totalPerformanceOpen +
            calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,1).pnl
@@ -183,6 +194,7 @@ export default async function Dashboard() {
         </div>
 
         <AverageCard prices={prices}/>
+        <Component/>
       </main>
     )
   }

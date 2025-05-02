@@ -74,10 +74,7 @@ export async function updateTrade(id, formData) {
 
   
     const { data: { session } } = await supabase.auth.getSession();
-    console.log({
-      ...formData,
-      user_email:session.user.email
-  })
+    console.log(id,'-------------------')
   
     const { error } = await supabase
       .from("trades")
