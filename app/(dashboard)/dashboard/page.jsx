@@ -85,7 +85,7 @@ export default async function Dashboard() {
 
   const supabase = createServerComponentClient({cookies})
 
-  console.log(trades)
+  // console.log(trades)
 
   let positiveClose = 0
   let negativeClose = 0
@@ -96,15 +96,32 @@ export default async function Dashboard() {
   let investedAmount = 0 
   let inflowAmount = 0 
   const piechartArray = []
+  const chartConfig = {}
 
   const pieChartFactory = (trade)=>{
     const curr = trade.currency
     const amount = trade.amount
-    console.log(piechartArray)
 
-    return {curremcy:curr,amount:amount}
+
+    return {currency:curr,amount:Number(amount),fill:'red'}
 
   }
+
+ 
+  
+  const configFactory = (trade)=>{
+    
+
+    const k = trade.currency
+
+    chartConfig[k] = {
+      label: trade.currency,
+      color:'red'
+    }
+
+
+  }
+  
 
     inflow.map((item)=>{
       inflowAmount = Number(inflowAmount) + Number(item.stableCoins)
@@ -142,6 +159,7 @@ export default async function Dashboard() {
       if (item.status=='Open'){
         investedAmount = investedAmount+ Number(item.amount)
         piechartArray.push(pieChartFactory(item))
+        configFactory(item)
         if (item.leverage==''){
           totalPerformanceOpen = totalPerformanceOpen +
            calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,1).pnl
@@ -194,7 +212,7 @@ export default async function Dashboard() {
         </div>
 
         <AverageCard prices={prices}/>
-        <Component/>
+        <Component piechartArray={piechartArray} chartConfig= {chartConfig}/>
       </main>
     )
   }

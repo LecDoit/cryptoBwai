@@ -1,6 +1,6 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
+import { PieChartIcon, TrendingUp } from "lucide-react"
 import { Pie, PieChart } from "recharts"
 
 import {
@@ -17,46 +17,46 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
+import { useFormField } from "@/components/ui/form"
 
-const chartCryptoData = [
-    {currency:'BTC',amount:1000,fill:'blue'}
+
+
+const chartDataTest = [
+
+  {currency: 'SOL', amount: 100, fill: 'red'},
+  {currency: 'BTC', amount: 100, fill: 'red'}
 ]
 
-const chartData = [
-  { browser: "chrome", visitors: 20, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 20, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 20, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 20, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 20, fill: "var(--color-other)" },
-]
+const chartConfigTest = {
+  
+  SOL: {
+    label: "SOL",
+    color: "blue"
+  },
+    BTC: {
+        label: "BTC",
+        color: "red"
+    }
+  
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
+  
+
 } 
 
-export function Component() {
+
+export function Component({piechartArray,chartConfig}) {
+  const [chartData,setChartData] = useState('')
+  const [pieChartConfig, setPieChartConfig] = useState('')
+    useEffect(()=>{
+
+      console.log(chartConfig)
+      console.log(piechartArray)
+      setChartData(piechartArray)
+      setPieChartConfig(chartConfig)
+    },[])
+
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -65,12 +65,12 @@ export function Component() {
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={chartConfig}
+          config={pieChartConfig}
           className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="visitors" label nameKey="browser" />
+            <Pie data={chartData} dataKey="amount" label nameKey="currency" />
           </PieChart>
         </ChartContainer>
       </CardContent>
