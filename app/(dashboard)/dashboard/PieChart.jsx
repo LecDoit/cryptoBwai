@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
 import { useFormField } from "@/components/ui/form"
+import { pivotDashboard } from "@/app/helpers/helpers"
 
 
 
@@ -45,15 +46,32 @@ const chartConfigTest = {
 } 
 
 
-export function Component({piechartArray,chartConfig}) {
+export function Component({piechartArray,chartConfig,trades,prices}) {
   const [chartData,setChartData] = useState('')
   const [pieChartConfig, setPieChartConfig] = useState('')
+  const [testData,setTestDAta] = useState('')
     useEffect(()=>{
+      const clonedConfig = {}
 
-      console.log(chartConfig)
-      console.log(piechartArray)
+      Object.keys(chartConfig).forEach((key,index)=>{
+        clonedConfig[key]={
+          ...chartConfig[key],
+          color:`rgb(${16*index},${16*index},${16*index})`
+        }
+
+        // const item = (chartConfig[key])
+        // item['color'] =`rgb(${16*index},${16*index},${16*index})`
+        // console.log(item)
+        
+
+      }) 
+      console.log(clonedConfig)
+      console.log(pivotDashboard(trades,prices))
+
+
+      setTestDAta(pivotDashboard(trades,prices))
       setChartData(piechartArray)
-      setPieChartConfig(chartConfig)
+      setPieChartConfig(clonedConfig)
     },[])
 
 
@@ -70,7 +88,7 @@ export function Component({piechartArray,chartConfig}) {
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="amount" label nameKey="currency" />
+            <Pie data={testData} dataKey="totalAmount" label nameKey="currency" />
           </PieChart>
         </ChartContainer>
       </CardContent>

@@ -107,16 +107,17 @@ export default async function Dashboard() {
 
   }
 
+
  
   
-  const configFactory = (trade)=>{
+  const configFactory = (trade,color)=>{
     
 
     const k = trade.currency
 
     chartConfig[k] = {
       label: trade.currency,
-      color:'red'
+
     }
 
 
@@ -129,7 +130,8 @@ export default async function Dashboard() {
 
 
 
-    trades.map((item)=>{
+    trades.map((item,i)=>{
+
    
       if (item.status=='Close'){
         if (item.leverage==''){
@@ -157,9 +159,10 @@ export default async function Dashboard() {
         }
       }
       if (item.status=='Open'){
+        let color = 0
         investedAmount = investedAmount+ Number(item.amount)
         piechartArray.push(pieChartFactory(item))
-        configFactory(item)
+        configFactory(item,color)
         if (item.leverage==''){
           totalPerformanceOpen = totalPerformanceOpen +
            calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,1).pnl
@@ -212,7 +215,7 @@ export default async function Dashboard() {
         </div>
 
         <AverageCard prices={prices}/>
-        <Component piechartArray={piechartArray} chartConfig= {chartConfig}/>
+        <Component piechartArray={piechartArray} chartConfig= {chartConfig}  prices={prices} trades={trades}/>
       </main>
     )
   }

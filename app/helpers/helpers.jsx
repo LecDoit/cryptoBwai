@@ -68,3 +68,8 @@ export const pivotDashboard = (data,prices)=>{
     
     return results
 }
+
+export const colorGenerator = (list)=>{
+    const colors = []
+
+}
