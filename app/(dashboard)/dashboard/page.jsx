@@ -162,7 +162,7 @@ export default async function Dashboard() {
         let color = 0
         investedAmount = investedAmount+ Number(item.amount)
         piechartArray.push(pieChartFactory(item))
-        configFactory(item,color)
+        // configFactory(item,color)
         if (item.leverage==''){
           totalPerformanceOpen = totalPerformanceOpen +
            calculateProfit(item.type,item.amount,item.currency,item.price,currPrice(prices,item.currency).quote.USD.price,1).pnl

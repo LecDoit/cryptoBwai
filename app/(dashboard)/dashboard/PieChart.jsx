@@ -18,60 +18,21 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
-import { useFormField } from "@/components/ui/form"
 import { pivotDashboard } from "@/app/helpers/helpers"
 
 
 
-const chartDataTest = [
-
-  {currency: 'SOL', amount: 100, fill: 'red'},
-  {currency: 'BTC', amount: 100, fill: 'red'}
-]
-
-const chartConfigTest = {
-  
-  SOL: {
-    label: "SOL",
-    color: "blue"
-  },
-    BTC: {
-        label: "BTC",
-        color: "red"
-    }
-  
-
-  
-
-} 
-
 
 export function Component({piechartArray,chartConfig,trades,prices}) {
   const [chartData,setChartData] = useState('')
-  const [pieChartConfig, setPieChartConfig] = useState('')
-  const [testData,setTestDAta] = useState('')
     useEffect(()=>{
-      const clonedConfig = {}
+      const data = pivotDashboard(trades,prices)
+      data.map((item,i)=>{
+        item['fill'] =`rgb(${16*i*3},${16*i*3},${16*i*3})`
 
-      Object.keys(chartConfig).forEach((key,index)=>{
-        clonedConfig[key]={
-          ...chartConfig[key],
-          color:`rgb(${16*index},${16*index},${16*index})`
-        }
-
-        // const item = (chartConfig[key])
-        // item['color'] =`rgb(${16*index},${16*index},${16*index})`
-        // console.log(item)
-        
-
-      }) 
-      console.log(clonedConfig)
-      console.log(pivotDashboard(trades,prices))
-
-
-      setTestDAta(pivotDashboard(trades,prices))
-      setChartData(piechartArray)
-      setPieChartConfig(clonedConfig)
+      })
+      console.log(data)
+      setChartData(data)
     },[])
 
 
@@ -83,19 +44,16 @@ export function Component({piechartArray,chartConfig,trades,prices}) {
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={pieChartConfig}
-          className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+          config={chartData}
+          className="mx-auto aspect-square max-h-[350px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={testData} dataKey="totalAmount" label nameKey="currency" />
+            <Pie data={chartData} dataKey="totalAmount" label nameKey="currency" />
           </PieChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Maybe something dynamic here like your most invested bla bla is ETH <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
           Showing total USDT invested
         </div>
