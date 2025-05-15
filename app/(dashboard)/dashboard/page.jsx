@@ -161,7 +161,7 @@ export default async function Dashboard() {
       if (item.status=='Open'){
         let color = 0
         investedAmount = investedAmount+ Number(item.amount)
-        piechartArray.push(pieChartFactory(item))
+        piechartArray.push(item)
         // configFactory(item,color)
         if (item.leverage==''){
           totalPerformanceOpen = totalPerformanceOpen +
