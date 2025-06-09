@@ -28,7 +28,7 @@ export default async function OpenPage() {
   return (
     <div className={"flex"}>
       <OpenTradesTable prices={prices}/>
-      <TradeForm/>
+      <TradeForm prices={prices}/>
     </div>
   )
 }

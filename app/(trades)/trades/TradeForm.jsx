@@ -79,9 +79,11 @@ const tradeSchema = z.object({
       path: ['leverage'],
     });
 
-export default function TradeForm() {
+export default function TradeForm(prices) {
 
+    console.log(prices)
 
+    const [curr,setCurr] =useState(prices)
     const [price,setPrice] = useState('')
     const [amount,setAmount] = useState('')
     const [closePrice,setClosePrice] = useState('')
@@ -141,12 +143,15 @@ export default function TradeForm() {
                           <SelectValue placeholder="Select action" />
                         </SelectTrigger>
                       </FormControl>
+
                       <SelectContent>
-                        <SelectItem value="BTC">BTC</SelectItem>
-                        <SelectItem value="ETH">ETH</SelectItem>
-                        <SelectItem value="SOL">SOL</SelectItem>
-                        <SelectItem value="XRP">XRP</SelectItem>
+                        {prices.prices.map((price,i)=>{
+                          return ( 
+                            <SelectItem key={i} value={price.symbol}>{price.name}</SelectItem>
+                          )
+                        })}
                       </SelectContent>
+
                     </Select>
                     <FormDescription>Select currency</FormDescription>
                     <FormMessage />
