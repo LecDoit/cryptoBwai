@@ -24,13 +24,15 @@ const Sidebar = async () => {
   const supabase = createServerComponentClient({cookies})
   const {data} = await supabase.auth.getSession()
 
+
+
 // if (!data.session){
 //   redirect('/login')
 // }
   return (
     <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 gap-4">
         <div>
-            <UserItem/>
+            <UserItem data={data}/>
         </div>
         <div>
          
