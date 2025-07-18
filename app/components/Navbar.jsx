@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
-import Logo from './K2.svg'
 import LogoutButton from './LogoutButton'
 
 const Navbar = ({user}) => {
