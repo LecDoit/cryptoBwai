@@ -52,19 +52,20 @@ export const pivotDashboard = (data,prices)=>{
         summary[currency].performance+=performance
         
     }
-
-    const results = Object.values(summary).map((item)=>({
-        currency:item.currency,
-        totalAmount:item.totalAmount,
-        averagePrice:item.totalPrice/item.tradeCount,
-        averageAmount:item.totalAmount/item.tradeCount,
-        averageRevenue:item.revenue/item.tradeCount,
-        tradeCount:item.tradeCount,
-        revenue:item.revenue,
-        performance:item.performance/item.tradeCount
+    console.log(summary)
 
 
+    const results = Object.values(summary).map((item) => ({
+    currency: item.currency,
+    totalAmount: parseFloat(item.totalAmount.toFixed(2)),
+    averagePrice: parseFloat((item.totalPrice / item.tradeCount).toFixed(2)),
+    averageAmount: parseFloat((item.totalAmount / item.tradeCount).toFixed(2)),
+    averageRevenue: parseFloat((item.revenue / item.tradeCount).toFixed(2)),
+    tradeCount: item.tradeCount,
+    revenue: parseFloat(item.revenue.toFixed(2)),
+    performance: parseFloat((item.performance / item.tradeCount).toFixed(2)),
     }))
+
     
     return results
 }

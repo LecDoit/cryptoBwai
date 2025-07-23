@@ -51,7 +51,7 @@ export function Component({piechartArray,chartConfig,trades,prices}) {
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartData}
-          className="mx-auto aspect-square max-h-[350px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+          className="mx-auto aspect-square max-h-[350px] pb-4 [&_.recharts-pie-label-text]:fill-foreground"
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
@@ -61,7 +61,7 @@ export function Component({piechartArray,chartConfig,trades,prices}) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing total USDT invested
+          Showing total USD invested
         </div>
       </CardFooter>
     </Card>
