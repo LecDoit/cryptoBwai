@@ -1,6 +1,4 @@
 import InflowForm from "./InflowForm"
-
-import { notFound } from "next/navigation"
 import { InflowTable } from "./InflowTable"
 
 
