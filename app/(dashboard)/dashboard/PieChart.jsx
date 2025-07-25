@@ -29,10 +29,8 @@ export function Component({piechartArray,chartConfig,trades,prices}) {
 
   const [chartData,setChartData] = useState('')
     useEffect(()=>{
-      // here i am taking all type of trades and i just need open gooosh
       const data = pivotDashboard(piechartArray,prices)
 
-      console.log(data)
       data.map((item,i)=>{
         item['fill'] =`rgb(${16*i*3},${16*i*3},${16*i*3})`
 

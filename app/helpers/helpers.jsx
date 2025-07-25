@@ -52,7 +52,6 @@ export const pivotDashboard = (data,prices)=>{
         summary[currency].performance+=performance
         
     }
-    console.log(summary)
 
 
     const results = Object.values(summary).map((item) => ({

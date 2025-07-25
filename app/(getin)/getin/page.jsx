@@ -17,8 +17,7 @@ import { BellRing, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-
- 
+import BlackNameSvg from '../../../assets/BlackName.js'
 
 
 
@@ -33,6 +32,7 @@ export default async function GetIn() {
 
   return (
     <main className="flex justify-center items-center min-h-screen">
+      <BlackNameSvg size={100}/>
 
     <Card className={"w-[380px]"} >
       <CardHeader>

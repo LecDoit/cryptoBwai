@@ -30,7 +30,7 @@ const Sidebar = async () => {
 //   redirect('/login')
 // }
   return (
-    <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 gap-4">
+    <div className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen h-auto p-4 gap-4">
         <div>
             <UserItem data={data}/>
         </div>
@@ -75,7 +75,7 @@ const Sidebar = async () => {
             </Command>
 
         </div>
-        <div className="grow">blank</div>
+        <div className="grow"></div>
         <div className="flex gap-3">
           <Settings/>
           <div>Settings</div>
