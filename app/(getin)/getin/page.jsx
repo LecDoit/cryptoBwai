@@ -1,4 +1,3 @@
-
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import {cookies} from 'next/headers'
 import {redirect} from 'next/navigation'
@@ -18,6 +17,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import BlackNameSvg from '../../../assets/BlackName.js'
+import GetInUI from '@/app/components/GetInUI.jsx'
 
 
 
@@ -31,28 +31,10 @@ export default async function GetIn() {
   }
 
   return (
-    <main className="flex justify-center items-center min-h-screen">
-      <BlackNameSvg size={100}/>
+    <main className="flex flex-col justify-center items-center min-h-screen">
+      <BlackNameSvg id='test' colors={'black'} size={440}/>
+      <GetInUI/>
 
-    <Card className={"w-[380px]"} >
-      <CardHeader>
-        <CardTitle>Get In!</CardTitle>
-        <CardDescription>Click here to Log in or Create New Account.</CardDescription>
-      </CardHeader>
-
-      <CardFooter className={'flex justify-center gap-4'}>
-        <Link className='w-full'  href={'/login'}>
-          <Button className='w-full' >
-           Log In
-          </Button>
-        </Link>
-        <Link  className='w-full'  href={'/signup'} >
-          <Button className='w-full' >
-            Sign Up
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
 
     </main>
   )
