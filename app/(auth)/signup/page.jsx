@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import AuthForm from '../AuthForm'
-
+import BlackNameSvg from '../../../assets/BlackName.js'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 
@@ -31,7 +31,8 @@ const Signup = () => {
     }
   }
   return (
-    <main>
+    <main className='flex flex-col'>
+      <BlackNameSvg id='test' colors={'hsl(var(--primary))'} size={440}/>
       <h2 className="text-xl font-semibold text-center mb-4">Sign up</h2>
       <AuthForm handleSubmit={handleSubmit}/>
       {error && (

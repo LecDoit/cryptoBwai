@@ -40,7 +40,7 @@ export default function AuthForm({ handleSubmit }) {
 
 
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center ">
         <div className="w-full max-w-sm p-6 bg-white shadow-md rounded-lg border">
 
   

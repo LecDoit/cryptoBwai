@@ -3,6 +3,7 @@ import React,{useState,useEffect} from 'react'
 import LogoBlack from '../../assets/LogoBlack.js'
 
 
+
 export default function LoadingSpinningLogo() {
 
   const [arrayColors,setArrayColors] = useState(["hsl(var(--accent))","hsl(var(--input))","hsl(var(--primary))"])
@@ -26,7 +27,7 @@ export default function LoadingSpinningLogo() {
     <main className='flex flex-col items-center justify-center h-screen text-center text-center'>
 
         <LogoBlack size={85} colors={arrayColors} />
-        {/* <LogoBlack color ={'red'} width={80}/> */}
+
         <h2 className='text-primary'>Loading...</h2>
     </main>
   )
