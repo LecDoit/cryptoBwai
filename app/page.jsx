@@ -21,6 +21,7 @@ export default async function Home({prices}) {
 
   return (
     <main>
+      
       {/* <Navbar /> */}
 
 

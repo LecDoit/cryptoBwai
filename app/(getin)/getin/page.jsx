@@ -16,7 +16,18 @@ export default async function GetIn() {
   }
 
   return (
-    <main className="flex flex-col items-center min-h-screen">
+    <main className="flex flex-col items-center min-h-screen"
+      style={{
+      backgroundImage: `
+        linear-gradient(
+          to bottom right,
+          hsl(var(--background)),
+          hsl(var(--accent)),
+          hsl(var(--chart-7))
+        )
+      `
+    }}
+    >
       <BlackNameSvg id='test' colors={'black'} size={440}/>
       <GetInUI/>
 

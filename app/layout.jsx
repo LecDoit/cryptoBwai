@@ -28,7 +28,9 @@ export default async function RootLayout({ children })
     <html lang="en">
       <body className={`${inter.className} flex items-start justify-between`} >
         {/* <CryptoList/> */}
-        <main className='w-full h-full'>
+        <main className='w-full h-full'
+
+        >
           {/* <Header/> */}
           {React.cloneElement(children,{children})}
         </main>
