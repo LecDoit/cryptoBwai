@@ -200,7 +200,7 @@ export default async function Dashboard() {
 
     return (
       <main className="p-4">
-        <div className="flex gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="flex gap-4 md:grid-cols-2 lg:grid-cols-4 m-4 ">
 
           <Cards title={'Open Trades'} icon={FolderOpen} positiveCount={positiveOpen} negativeCount={negativeOpen} description={'Current active positions'}/>
 
@@ -212,10 +212,11 @@ export default async function Dashboard() {
           
           <CardsAvailableAmount title={'Available to trade'} icon={DollarSign} positiveCount={investedAmount.toFixed(0)} negativeCount={(inflowAmount+totalPerformanceClose).toFixed(0)} description={'Total inflow and revenue available to trade'}/>
 
+        </div> 
+        <div className="flex flex-row">
+          <AverageCard prices={prices}/>
+          <Component piechartArray={piechartArray} chartConfig= {chartConfig}  prices={prices} trades={trades}/>
         </div>
-
-        <AverageCard prices={prices}/>
-        <Component piechartArray={piechartArray} chartConfig= {chartConfig}  prices={prices} trades={trades}/>
       </main>
     )
   }

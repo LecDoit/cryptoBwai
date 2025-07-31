@@ -41,7 +41,7 @@ export function Component({piechartArray,chartConfig,trades,prices}) {
 
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col m-4">
       <CardHeader className="items-center pb-0">
         <CardTitle>Invested Crypto Currencies distribution</CardTitle>
         <CardDescription>Here you can find the distribution of your USD invested into multiple currencies</CardDescription>
