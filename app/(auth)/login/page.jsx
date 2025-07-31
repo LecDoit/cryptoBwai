@@ -32,7 +32,7 @@ const Login = () => {
 
 
   return (
-    <main className='flex flex-col '
+    <main className='flex flex-col  min-h-screen'
     style={{
       backgroundImage: `
         linear-gradient(
